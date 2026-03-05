@@ -1,13 +1,6 @@
-//
-//  ContentView.swift
-//  Cookcademy
-//
-//  Created by Анна Герман on 05.03.2026.
-//
-
 import SwiftUI
 
-struct ContentView: View {
+struct RecipesListView: View {
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -20,5 +13,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    RecipesListView()
 }
