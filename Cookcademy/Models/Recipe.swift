@@ -1,6 +1,8 @@
 import Foundation
 
-struct Recipe {
+struct Recipe: Identifiable {
+    var id = UUID()
+    
     var mainInformation: MainInformation
     var ingredients: [Ingredient]
     var directions: [Direction]
@@ -260,7 +262,7 @@ extension Recipe {
                                                 author: "Jack B",
                                                 category: .dessert),
                ingredients: [
-                Ingredient(name: "1 package of caramels", quantity: 14, unit: .oz),
+                Ingredient(name: "Caramel candies", quantity: 14, unit: .oz),
                 Ingredient(name: "Water", quantity: 3, unit: .tbs),
                 Ingredient(name: "Chopped Pecans", quantity: 1.25, unit: .cups),
                 Ingredient(name: "Rice Krispies", quantity: 1, unit: .cups),
@@ -272,8 +274,8 @@ extension Recipe {
                 Direction(description: "Grease paper and set aside", isOptional: false),
                 Direction(description: "In a large heavy saucepan, combine caramel and water", isOptional: false),
                 Direction(description: "Cook and stir over low heat until smooth", isOptional: false),
-                Direction(description: "Stir in pecans and cereal until coated", isOptional: false),
-                Direction(description: "Drops teaspoons onto prepared pans", isOptional: false),
+                Direction(description: "Stir in pecans and rice krispies until coated", isOptional: false),
+                Direction(description: "Put mixture onto prepared pans", isOptional: false),
                 Direction(description: "Refrigerate for 10 mins or until firm", isOptional: false),
                 Direction(description: "Melt chocolate chips and shortening", isOptional: false),
                 Direction(description: "Stir until smooth", isOptional: false),
@@ -288,9 +290,9 @@ extension Recipe {
                                                 category: .dinner),
                ingredients: [
                 Ingredient(name: "Elbow Macaroni", quantity: 12, unit: .oz),
-                Ingredient(name: "Butter, divided", quantity: 2, unit: .tbs),
+                Ingredient(name: "Butter", quantity: 2, unit: .tbs),
                 Ingredient(name: "Small onion, chopped", quantity: 1, unit: .none),
-                Ingredient(name: "Milk, divided", quantity: 4, unit: .cups),
+                Ingredient(name: "Milk", quantity: 4, unit: .cups),
                 Ingredient(name: "Flour", quantity: 0.33, unit: .cups),
                 Ingredient(name: "Bay Leaves", quantity: 2, unit: .none),
                 Ingredient(name: "Thyme", quantity: 0.5, unit: .tsp),
@@ -331,7 +333,7 @@ extension Recipe {
                directions:  [
                 Direction(description: "Cook onion and garlic on high heat until onion is translucent, about 5 min", isOptional: false),
                 Direction(description: "Add celery, carrots, parsley, and cook for 5-7min", isOptional: false),
-                Direction(description: "Add can diced tomatoes, vegetable stock, and potato. Bring to boil and let simmer for 45min", isOptional: false),
+                Direction(description: "Add diced tomatoes, vegetable stock, and potato. Bring to boil and let simmer for 45min", isOptional: false),
                 Direction(description: "Add broccoli, zucchini, and kidney beans. Bring back to boil and then let simmer for 15 more min", isOptional: false),
                 Direction(description: "Serve with spinach and parmesan cheese", isOptional: true)
                ]
@@ -351,9 +353,9 @@ extension Recipe {
                directions:  [
                 Direction(description: "Chop garlic and onions", isOptional: false),
                 Direction(description: "Saute garlic and onions in olive oil", isOptional: false),
-                Direction(description: "Add clams and 1/2 juice in cans", isOptional: false),
+                Direction(description: "Add clams and 1/2 juice from the cans", isOptional: false),
                 Direction(description: "Add butter, wine, and salt pepper to taste", isOptional: false),
-                Direction(description: "Simmer for 15min until sauce deduces 1/2", isOptional: false),
+                Direction(description: "Simmer for 15min until sauce reduces by half", isOptional: false),
                 Direction(description: "Serve over favorite pasta", isOptional: false)
                ]
         ),
