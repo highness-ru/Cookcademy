@@ -62,6 +62,16 @@ struct Ingredient {
         }
     }
     
+    init(name: String, quantity: Double, unit: Unit) {
+        self.name = name
+        self.quantity = quantity
+        self.unit = unit
+    }
+    
+    init() {
+        self.init(name: "", quantity: 1.0, unit: .none)
+    }
+    
     enum Unit: String, CaseIterable {
         case oz = "Ounces"
         case g = "Grams"
