@@ -4,9 +4,7 @@ import SwiftUI
 struct CookcademyApp: App {
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                RecipeCategoryGridView()
-            }
+                MainTabView()
         }
     }
 }

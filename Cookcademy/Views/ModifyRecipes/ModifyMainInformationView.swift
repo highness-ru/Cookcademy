@@ -5,6 +5,7 @@ struct ModifyMainInformationView: View {
     private let listTextColor = AppColor.foreground
     
     @Binding var mainInformation: MainInformation
+    @EnvironmentObject private var recipeData: RecipeData
     
     var body: some View {
         Form {
@@ -36,5 +37,8 @@ struct ModifyMainInformationView: View {
 
 #Preview {
     @Previewable @State var mainInformation =  MainInformation(name: "Mutton Stew", description: "I know nothing and even I could cook that", author: "John Snow", category: .lunch)
+    @Previewable @State var emptyInformation = MainInformation(name: "", description: "", author: "", category: .breakfast)
+    
     ModifyMainInformationView(mainInformation: $mainInformation)
+    ModifyMainInformationView(mainInformation: $emptyInformation)
 }

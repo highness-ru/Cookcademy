@@ -34,10 +34,10 @@ struct ModifyComponentsView<Component: RecipeComponent, DestinationView: ModifyC
             let addComponentView = DestinationView(component: $newComponent) { component in
                 components.append(component)
                 newComponent = Component()
-            }.navigationTitle("Add the first \(Component.singularName().capitalized)")
+            }.navigationTitle("Add the \(Component.singularName().lowercased())")
             if components.isEmpty {
                 Spacer()
-                NavigationLink("Add the first \(Component.singularName())", destination: addComponentView)
+                NavigationLink("Add the \(Component.singularName().lowercased())", destination: addComponentView)
                 Spacer()
             } else {
                 HStack {
@@ -49,7 +49,15 @@ struct ModifyComponentsView<Component: RecipeComponent, DestinationView: ModifyC
                 List {
                     ForEach(components.indices, id: \.self) { index in
                         let component = components[index]
-                        Text(component.description)
+                        let editComponentView = DestinationView(component: $components[index]) { _ in
+                            return
+                        }
+                            .navigationTitle("Edit \(Component.singularName().lowercased())")
+                        NavigationLink(component.description, destination: editComponentView)
+                    }
+                    .onDelete { components.remove(atOffsets: $0) }
+                    .onMove { indices, newOffset in
+                        components.move(fromOffsets: indices, toOffset: newOffset)
                     }
                     .listRowBackground(listBackgroundColor)
                     NavigationLink("Add another \(Component.singularName())",
@@ -68,5 +76,8 @@ struct ModifyComponentsView<Component: RecipeComponent, DestinationView: ModifyC
 
     NavigationView {
         ModifyComponentsView<Ingredient, ModifyIngredientView>(components: $recipe.ingredients)
+    }
+    NavigationView {
+        ModifyComponentsView<Ingredient, ModifyIngredientView>(components: $emptyIngredients)
     }
 }

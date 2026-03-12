@@ -13,9 +13,9 @@ struct ModifyIngredientView: ModifyComponentView {
     private let listTextColor = AppColor.foreground
     
     @Environment(\.presentationMode) private var mode
+    @EnvironmentObject private var recipeData: RecipeData
     
     var body: some View {
-        VStack {
             Form {
                 TextField("Ingredient Name", text: $ingredient.name)
                     .listRowBackground(listBackgroundColor)
@@ -50,7 +50,6 @@ struct ModifyIngredientView: ModifyComponentView {
                 }.listRowBackground(listBackgroundColor)
             }
             .foregroundColor(listTextColor)
-        }
     }
 }
         extension NumberFormatter {
@@ -63,9 +62,9 @@ struct ModifyIngredientView: ModifyComponentView {
 
 
 #Preview {
-    @Previewable @State var emptyIngredient = Recipe.testRecipes[0].ingredients[0]
+    @Previewable @State var recipe = Recipe.testRecipes[0]
         NavigationView {
-            ModifyIngredientView(component: $emptyIngredient) { ingredient in print(ingredient)
+            ModifyIngredientView(component: $recipe.ingredients[0]) { ingredient in print(ingredient)
             }
         } .navigationTitle("Add Ingredient")
 }

@@ -1,11 +1,14 @@
 import SwiftUI
 
 struct RecipeDetailView: View {
-    let recipe: Recipe
+    @Binding var recipe: Recipe
     @State private var expandedSections = [true, true]
     
     private let listBackgroundColor = AppColor.background
     private let listTextColor = AppColor.foreground
+    
+    @State private var isPresenting = false
+    @EnvironmentObject private var recipeData: RecipeData
     
     var body: some View {
         VStack {
@@ -49,12 +52,40 @@ struct RecipeDetailView: View {
             .listStyle(.sidebar)
         }
         .navigationTitle(recipe.mainInformation.name)
+        .toolbar {
+            ToolbarItem {
+                HStack {
+                    Button("Edit") {
+                        isPresenting = true
+                    }
+                    Button(action: {
+                        recipe.isFavorite.toggle()
+                    }) {
+                        Image(systemName: recipe.isFavorite ? "heart.fill" : "heart")
+                    }
+                }
+            }
+            ToolbarItem(placement: .navigationBarLeading) { Text("") }
+        }
+        .sheet(isPresented: $isPresenting) {
+            NavigationView {
+                ModifyRecipeView(recipe: $recipe)
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Save") {
+                                isPresenting = false
+                            }
+                        }
+                    }
+                    .navigationTitle("Edit Recipe")
+            }
+        }
     }
 }
 
 #Preview {
     @Previewable @State var recipe = Recipe.testRecipes[0]
     NavigationView {
-        RecipeDetailView(recipe: recipe)
+        RecipeDetailView(recipe: $recipe)
     }
 }

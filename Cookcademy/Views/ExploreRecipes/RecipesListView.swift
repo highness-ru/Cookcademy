@@ -2,7 +2,7 @@ import SwiftUI
 
 struct RecipesListView: View {
     @EnvironmentObject private var recipeData: RecipeData
-    let category: MainInformation.Category
+    let viewStyle: ViewStyle
     
     private let listBackgroundColor = AppColor.background
     private let listTextColor = AppColor.foreground
@@ -11,10 +11,9 @@ struct RecipesListView: View {
     @State private var newRecipe = Recipe()
     
     var body: some View {
-        NavigationView {
             List {
                 ForEach(recipes) { recipe in
-                    NavigationLink(recipe.mainInformation.name, destination: RecipeDetailView(recipe: recipe))
+                    NavigationLink(recipe.mainInformation.name, destination: RecipeDetailView(recipe: binding(for: recipe)))
                 }
                 .listRowBackground(listBackgroundColor)
                 .foregroundColor(listTextColor)
@@ -23,6 +22,8 @@ struct RecipesListView: View {
             .toolbar(content: {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
+                        newRecipe = Recipe()
+                        newRecipe.mainInformation.category = recipes.first?.mainInformation.category ?? .breakfast
                         isPresenting = true
                     }, label: {
                         Image(systemName: "plus")
@@ -50,23 +51,43 @@ struct RecipesListView: View {
                         .navigationTitle("Add a New Recipe")
                 }
             })
-        }
     }
 }
 
 extension RecipesListView {
+    enum ViewStyle {
+        case favorites
+        case singleCategory(MainInformation.Category)
+    }
     private var recipes: [Recipe] {
-        recipeData.recipes(for: category)
+        switch viewStyle {
+        case let .singleCategory(category):
+            return recipeData.recipes(for: category)
+        case .favorites:
+            return recipeData.favoriteRecipes
+        }
     }
     
     private var navigationTitle: String {
-        "\(category.rawValue) Recipes"
+        switch viewStyle {
+        case let .singleCategory(category):
+            return "\(category.rawValue) Recipes"
+        case .favorites:
+            return "Favorite Recipes"
+        }
+    }
+    
+    func binding(for recipe: Recipe) -> Binding<Recipe> {
+        guard let index = recipeData.index(of: recipe) else {
+            fatalError("Recipe not found")
+        }
+        return $recipeData.recipes[index]
     }
 }
 
 #Preview {
     NavigationView {
-        RecipesListView(category: .breakfast)
-            .environmentObject(RecipeData())
+        RecipesListView(viewStyle: .singleCategory(.breakfast))
+    }.environmentObject(RecipeData())
     }
-}
+
