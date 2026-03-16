@@ -9,9 +9,17 @@ struct ModifyMainInformationView: View {
     
     var body: some View {
         Form {
-            TextField("Recipe Name", text: $mainInformation.name)
+            TextField("",
+                      text: $mainInformation.name,
+                      prompt: Text("Recipe Name")
+                .foregroundColor(listTextColor)
+            )
                 .listRowBackground(listBackgroundColor)
-            TextField("Author", text: $mainInformation.author)
+            TextField("",
+                      text: $mainInformation.author,
+                      prompt: Text("Author")
+                .foregroundColor(listTextColor)
+            )
                 .listRowBackground(listBackgroundColor)
             Section(header: Text("Description")) {
                 TextEditor(text: $mainInformation.description)

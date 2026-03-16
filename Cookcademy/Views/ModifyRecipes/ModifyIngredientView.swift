@@ -17,7 +17,11 @@ struct ModifyIngredientView: ModifyComponentView {
     
     var body: some View {
             Form {
-                TextField("Ingredient Name", text: $ingredient.name)
+                TextField("",
+                          text: $ingredient.name,
+                          prompt: Text("Ingredient Name")
+                    .foregroundColor(listTextColor)
+                          )
                     .listRowBackground(listBackgroundColor)
                 Stepper(value: $ingredient.quantity, in: 0...100, step: 0.5) {
                     HStack {
